@@ -1,18 +1,32 @@
 class UsersController < ApplicationController
 
+  def index
+    receivers = Message.where(receiver_id: params[:user_id]).pluck(:sender_id)
+    senders = Message.where(sender_id: params[:user_id]).pluck(:receiver_id)
+    user_ids = receivers << senders
+    users = User.where(id: user_ids)
+
+    render json: users_to_json(users)
+  end
+
   def create
-    User.new user_params
-
-
+    user = User.create(user_params)
+    render json: users_to_json(user)
   end
 
   def show
+    user = User.find params[:id]
+    render json: users_to_json(user)
+  end
 
+  def search
+    user = User.find_by phone: params[:phone]
+    render json: users_to_json(user)
   end
 
   private
 
   def user_params
-    params.requre(:user).permit(:phone)
+    params.require(:user).permit(:id, :phone)
   end
 end

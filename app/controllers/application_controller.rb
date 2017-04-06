@@ -1,5 +1,16 @@
-class ApplicationController < ActionController::Base
-  # Prevent CSRF attacks by raising an exception.
-  # For APIs, you may want to use :null_session instead.
-  protect_from_forgery with: :exception
+class ApplicationController < ActionController::API
+
+  def messages_to_json(messages)
+    messages.to_json(only: [:id, :content, :created_at], include: [{sender: user_allowed_json}, {receiver: user_allowed_json }])
+  end
+
+  def users_to_json(users)
+    users.to_json(only: [:id, :phone, :created_at])
+  end
+
+  private
+
+  def user_allowed_json
+    {only: [:id, :phone, :created_at]}
+  end
 end
