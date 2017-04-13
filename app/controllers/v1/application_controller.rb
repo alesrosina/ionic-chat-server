@@ -1,4 +1,4 @@
-class ApplicationController < ActionController::API
+class V1::ApplicationController < ActionController::API
 
   def messages_to_json(messages)
     messages.to_json(only: [:id, :content, :created_at], include: [{sender: user_allowed_json}, {receiver: user_allowed_json }])
