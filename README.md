@@ -24,14 +24,15 @@ Project should be now setup.
 Available routes:
 
 ```
-GET /users/[user_id]/sent_messages
-POST /users/[user_id]/sent_messages
-GET /users/[user_id]/received_messages
-GET /users/[user_id]/messages
-GET /users/[user_id]/users
-GET /users/search?phone=[number]
-POST /users
-GET /users/[id]
+GET /v1/users/[user_id]/messages
+GET /v1/users/[user_sender_id]/messages/[user_receiver_id]
+GET /v1/users/[user_id]/users
+GET /v1/users/search?phone=[number]
+POST /v1/users
+    post data: { "user": { "phone": "[new_user_phone_number]" } }
+GET /v1/users/[id]
+POST /v1/messages
+    post data: { "message": { "content": "[message_content]", "sender_id": "[number]", "receiver_id": "[number]" } }
 ```
 
 **Please note:** When doing search, only exact number hit will result in successful response.

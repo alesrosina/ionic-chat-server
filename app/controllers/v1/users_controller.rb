@@ -1,10 +1,10 @@
-class UsersController < ApplicationController
+class V1::UsersController < V1::ApplicationController
 
   def index
     receivers = Message.where(receiver_id: params[:user_id]).pluck(:sender_id)
     senders = Message.where(sender_id: params[:user_id]).pluck(:receiver_id)
     user_ids = receivers << senders
-    users = User.where(id: user_ids)
+    users = User.where(id: user_ids.flatten.uniq)
 
     render json: users_to_json(users)
   end
